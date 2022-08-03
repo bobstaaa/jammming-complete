@@ -1,6 +1,8 @@
 import React from "react";
+import TrackList from "../trackList/trackList";
 import './searchResult.css'
 
+//Expects a list of tracks as props
 export default class SearchResults extends React.Component {
     constructor(props) {
         super(props)
@@ -9,7 +11,7 @@ export default class SearchResults extends React.Component {
         return (
             <div className="SearchResults">
                 <h2>Results</h2>
-                //Add a TrackList component
+                <TrackList tracks={this.props.searchResults} />
             </div>
         )
     }
