@@ -3,14 +3,15 @@ import SearchBar from '../components/searchBar/searchBar.js';
 import React from 'react';
 import SearchResults from '../components/searchResults/searchResult';
 import Playlist from '../components/playlist/playlist';
+import Spotify from '../util/Spotify';
 
 export default class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      searchResults: [{ name: 'track1', artist: 'artist1', album: 'album1', id: 1 }, { name: 'track2', artist: 'artist2', album: 'album2', id: 2 }],
+      searchResults: [{}],
       playlistName: 'My Playlist',
-      playlistTracks: [{ name: 'track3', artist: 'artist3', album: 'album3', id: 3 }, { name: 'track4', artist: 'artist4', album: 'album4', id: 4 }],
+      playlistTracks: [{}],
     }
     this.addTrack = this.addTrack.bind(this)
     this.removeTrack = this.removeTrack.bind(this)
@@ -45,7 +46,8 @@ export default class App extends React.Component {
     //TODO
   }
   search(searchTerm) {
-    console.log(`You searched for ${searchTerm}`)
+    Spotify.search(searchTerm)
+      .then(res => this.setState({ searchResults: res }))
   }
   render() {
     return (
