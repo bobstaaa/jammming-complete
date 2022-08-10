@@ -46,6 +46,33 @@ const Spotify = {
                     }))
                 })
         }
+    },
+    savePlaylist(name, trackURIs) {
+        if (!name || !trackURIs) {
+            return
+        }
+        const accessToken = Spotify.getAccessToken()
+        const headers = { Authorization: `Bearer ${accessToken}` }
+        fetch('https://api.spotify.com/v1/me', { headers: headers })
+            .then(res => res.json())
+            .then(jsonRes => {
+                const userID = jsonRes.id
+                fetch(`https://api.spotify.com/v1/users/${userID}/playlists`, {
+                    headers: headers,
+                    method: 'POST',
+                    body: JSON.stringify({ name: name, desceiption: 'Made with Jammming by Codecademy', public: true })
+                })
+                    .then(res => res.json())
+                    .then(jsonRes => {
+                        const playlistID = name
+                        return fetch(`https://api.spotify.com/v1/users/${userID}/playlists/${playlistID}/tracks)`, {
+                            headers: headers,
+                            mode: 'no-cors',
+                            method: 'POST',
+                            body: JSON.stringify({ uris: trackURIs })
+                        })
+                    })
+            })
     }
 }
 
