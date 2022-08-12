@@ -9,6 +9,7 @@ export default class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
+      savingPlaylist: false,
       searchResults: [],
       playlistName: 'Name me',
       playlistTracks: [],
@@ -26,13 +27,22 @@ export default class App extends React.Component {
       return
     }
     //else add to end of playListTracks and update state
+
+    //Codecademy extension project: Only display songs not currently present in the playlist in the search results
     playlistTracks.push(track)
-    this.setState({ playlistTracks: playlistTracks })
+    const searchResults = this.state.searchResults;
+
+    const filteredSearchResults = searchResults.filter(x => x !== track)
+
+    this.setState({ searchResults: filteredSearchResults, playlistTracks: playlistTracks })
   }
   removeTrack(track) {
     const playlistTracks = this.state.playlistTracks;
     const newPlaylistTracks = playlistTracks.filter(x => x !== track)
+    const searchResults = this.state.searchResults
+    searchResults.push(track)
     this.setState({
+      searchResults: searchResults,
       playlistTracks: newPlaylistTracks
     })
   }
@@ -43,17 +53,29 @@ export default class App extends React.Component {
   }
   savePlaylist() {
     const trackURIs = this.state.playlistTracks.map(track => track.uri)
+    //Codecademy extension project: Add a loading screen while playlist is saving
+    this.setState({
+      savingPlaylist: true,
+      playlistTracks: [],
+    })
     Spotify.savePlaylist(this.state.playlistName, trackURIs)
-      .then(() => {
+      .finally(() => {
         this.setState({
+          //Codecademy extension project: Add a loading screen while playlist is saving
+          savingPlaylist: false,
           playlistName: 'New Playlist',
-          playlistTracks: [],
         })
       })
   }
   search(searchTerm) {
     Spotify.search(searchTerm)
-      .then(res => this.setState({ searchResults: res }))
+      //Codecademy extension project: Only display songs not currently present in the playlist in the search results
+      .then(res => {
+        const playlistTracksID = this.state.playlistTracks.map(x => x.id);
+
+        const filteredRes = res.filter(x => !playlistTracksID.includes(x.id))
+        this.setState({ searchResults: filteredRes })
+      })
   }
   render() {
     return (
@@ -63,7 +85,7 @@ export default class App extends React.Component {
           <SearchBar onSearch={this.search} />
           <div className="App-playlist">
             <SearchResults searchResults={this.state.searchResults} onAdd={this.addTrack} />
-            <Playlist playlistName={this.state.playlistName} playlistTracks={this.state.playlistTracks} onRemove={this.removeTrack} updatePlaylistName={this.updatePlaylistName} onSave={this.savePlaylist} />
+            <Playlist playlistName={this.state.playlistName} playlistTracks={this.state.playlistTracks} onRemove={this.removeTrack} updatePlaylistName={this.updatePlaylistName} onSave={this.savePlaylist} savingPlaylist={this.state.savingPlaylist} />
           </div>
         </div>
       </div >
