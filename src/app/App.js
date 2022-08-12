@@ -59,9 +59,9 @@ export default class App extends React.Component {
       playlistTracks: [],
     })
     Spotify.savePlaylist(this.state.playlistName, trackURIs)
+      //Codecademy extension project: Add a loading screen while playlist is saving
       .finally(() => {
         this.setState({
-          //Codecademy extension project: Add a loading screen while playlist is saving
           savingPlaylist: false,
           playlistName: 'New Playlist',
         })

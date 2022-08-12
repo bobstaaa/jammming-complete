@@ -16,6 +16,7 @@ export default class Playlist extends React.Component {
             <div className="Playlist">
                 <input value={this.props.playlistName} onChange={this.handleNameChange} />
                 <TrackList tracks={this.props.playlistTracks} onRemove={this.props.onRemove} isRemoval={true} />
+                {/* Codecademy extension project: Add a loading screen while playlist is saving */}
                 <button className="Playlist-save" onClick={this.props.onSave}>{this.props.savingPlaylist ? 'SAVING...' : 'SAVE TO SPOTIFY'}</button>
             </div>
         )
