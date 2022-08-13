@@ -4,9 +4,6 @@ import './trackList.css'
 
 //Expects a list of tracks as props keys of name, artist and album and id for keying
 export default class TrackList extends React.Component {
-    constructor(props) {
-        super(props)
-    }
     render() {
         return (
             <div className="TrackList">

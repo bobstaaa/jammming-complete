@@ -8,13 +8,19 @@ import Spotify from '../util/Spotify';
 export default class App extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {
-      savingPlaylist: false,
-      searchResults: [],
-      playlistName: 'New Paylist',
-      playlistTracks: [],
-      playingTrack: {},
+    let prevState = window.sessionStorage.JammmingState
+    if (prevState) {
+      this.state = JSON.parse(prevState)
+    } else {
+      this.state = {
+        savingPlaylist: false,
+        searchResults: [],
+        playlistName: 'New Playlist',
+        playlistTracks: [],
+        playingTrack: {},
+      }
     }
+
     this.addTrack = this.addTrack.bind(this)
     this.removeTrack = this.removeTrack.bind(this)
     this.updatePlaylistName = this.updatePlaylistName.bind(this)
@@ -70,6 +76,7 @@ export default class App extends React.Component {
       })
   }
   search(searchTerm) {
+    window.sessionStorage.searchTerm = searchTerm;
     Spotify.search(searchTerm)
       //Codecademy extension project: Only display songs not currently present in the playlist in the search results
       .then(res => {
@@ -87,6 +94,9 @@ export default class App extends React.Component {
     this.setState({
       playingTrack: playingTrack,
     })
+  }
+  componentDidUpdate() {
+    window.sessionStorage.JammmingState = JSON.stringify(this.state)
   }
   render() {
     return (
