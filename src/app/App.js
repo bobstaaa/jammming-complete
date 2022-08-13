@@ -11,14 +11,16 @@ export default class App extends React.Component {
     this.state = {
       savingPlaylist: false,
       searchResults: [],
-      playlistName: 'Name me',
+      playlistName: 'New Paylist',
       playlistTracks: [],
+      playingTrack: {},
     }
     this.addTrack = this.addTrack.bind(this)
     this.removeTrack = this.removeTrack.bind(this)
     this.updatePlaylistName = this.updatePlaylistName.bind(this)
     this.savePlaylist = this.savePlaylist.bind(this)
     this.search = this.search.bind(this)
+    this.togglePlay = this.togglePlay.bind(this)
   }
   addTrack(track) {
     const playlistTracks = this.state.playlistTracks;
@@ -77,6 +79,15 @@ export default class App extends React.Component {
         this.setState({ searchResults: filteredRes })
       })
   }
+  togglePlay(track) {
+    let playingTrack = track;
+    if (track.id === this.state.playingTrack.id) {
+      playingTrack = {}
+    }
+    this.setState({
+      playingTrack: playingTrack,
+    })
+  }
   render() {
     return (
       <div className='container'>
@@ -84,8 +95,20 @@ export default class App extends React.Component {
         <div className="App">
           <SearchBar onSearch={this.search} />
           <div className="App-playlist">
-            <SearchResults searchResults={this.state.searchResults} onAdd={this.addTrack} />
-            <Playlist playlistName={this.state.playlistName} playlistTracks={this.state.playlistTracks} onRemove={this.removeTrack} updatePlaylistName={this.updatePlaylistName} onSave={this.savePlaylist} savingPlaylist={this.state.savingPlaylist} />
+            <SearchResults
+              searchResults={this.state.searchResults}
+              onAdd={this.addTrack}
+              togglePlay={this.togglePlay}
+              playingTrack={this.state.playingTrack} />
+            <Playlist
+              playlistName={this.state.playlistName}
+              playlistTracks={this.state.playlistTracks}
+              onRemove={this.removeTrack}
+              updatePlaylistName={this.updatePlaylistName}
+              onSave={this.savePlaylist}
+              savingPlaylist={this.state.savingPlaylist}
+              togglePlay={this.togglePlay}
+              playingTrack={this.state.playingTrack} />
           </div>
         </div>
       </div >

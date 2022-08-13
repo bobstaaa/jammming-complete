@@ -43,6 +43,7 @@ const Spotify = {
                         artist: track.artists[0].name,
                         album: track.album.name,
                         uri: track.uri,
+                        preview: track.preview_url,
                     }))
                 })
         }
@@ -72,7 +73,7 @@ const Spotify = {
                         })
                     })
             })
-    }
+    },
 }
 
 export default Spotify;

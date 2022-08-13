@@ -35,3 +35,33 @@
     font-weight: 300;
     color: rgba(256, 256, 256, 0.8);
 }
+
+.Play-button {
+    cursor: pointer;
+    width: 2rem;
+    height: 2rem;
+
+    border-radius: 54px;
+    border-width: 0px;
+    background-color: #6c41ec;
+    text-align: center;
+    font-size: .83rem;
+    transition: background-color .25s;
+    color: #fff;
+    font-weight: 500;
+    justify-content: center;
+    align-items: center;
+}
+
+.Play-button:hover {
+    background-color: rgba(108, 65, 233, .7);
+}
+
+.Play-button img {
+    max-width: 1rem;
+    max-height: 1rem;
+}
+
+video {
+    display: none;
+}
