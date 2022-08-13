@@ -8,6 +8,8 @@ import Spotify from '../util/Spotify';
 export default class App extends React.Component {
   constructor(props) {
     super(props)
+
+    //Codecademy extension project: Ensure playlist information doesn’t get cleared if a user has to refresh their access token
     let prevState = window.sessionStorage.JammmingState
     if (prevState) {
       this.state = JSON.parse(prevState)
@@ -95,6 +97,7 @@ export default class App extends React.Component {
       playingTrack: playingTrack,
     })
   }
+  //Codecademy extension project: Ensure playlist information doesn’t get cleared if a user has to refresh their access token
   componentDidUpdate() {
     window.sessionStorage.JammmingState = JSON.stringify(this.state)
   }
