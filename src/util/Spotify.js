@@ -1,5 +1,5 @@
 import { clientID } from "./environment";
-const redirectURL = 'http://localhost:3000/'
+const redirectURL = 'http://localhost:3000/callback/'
 let accessToken = ''
 
 const Spotify = {

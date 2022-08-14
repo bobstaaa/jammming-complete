@@ -9,6 +9,12 @@ export default class App extends React.Component {
   constructor(props) {
     super(props)
 
+    //Codecademy extension project: Update the access token logic to expire at exactly the right time, instead of setting expiration from when the user initiates their next search.
+    //Note: the callback URL will need to be added to the Spotify app settings in the developers section of spotify 
+    if (window.location.href.includes('/callback/')) {
+      console.log('Redirected to access token')
+      Spotify.getAccessToken()
+    }
     //Codecademy extension project: Ensure playlist information doesn’t get cleared if a user has to refresh their access token
     let prevState = window.sessionStorage.JammmingState
     if (prevState) {
